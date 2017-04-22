@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Explorer extends JFrame {
-
+	
 	public void buscar() {
 		FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("png", "txt", "doc", "jpg");
 		

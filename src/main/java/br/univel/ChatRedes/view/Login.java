@@ -51,6 +51,7 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public Login() {
 
 		try {
@@ -161,12 +162,10 @@ public class Login extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-//				contectar();
+				contectar();
 				Principal tela = new Principal();
-				Chat chat = new Chat();
 				
 				tela.getFrame().setVisible(true);
-				chat.getFrame().setVisible(true);
 				
 				dispose();
 			}
@@ -197,14 +196,14 @@ public class Login extends JFrame {
 			System.out.println("OPA");
 
 			servidor.conectarChat(meuUsuario, cliente);
-			// conexaoCliente.conectarChat(user,(InterfaceUsuario)
-			// conexaoCliente );
-			// if (conexaoServidor == true) {
-			// new Principal(user, conexaoCliente).setVisible(true);
-			// } else {
-			//
-			// }
-			// dispose();
+			 conexaoCliente.conectarChat(user,(InterfaceUsuario)
+			 conexaoCliente );
+			 if (conexaoServidor == true) {
+			 new Principal(user, conexaoCliente).setVisible(true);
+			 } else {
+			
+			 }
+			 dispose();
 			System.out.println("TESTE 01");
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(null,
