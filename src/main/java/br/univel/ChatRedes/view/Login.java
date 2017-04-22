@@ -162,7 +162,6 @@ public class Login extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				conectar();
 				Principal tela = new Principal();
 				
 				tela.getFrame().setVisible(true);
@@ -178,41 +177,4 @@ public class Login extends JFrame {
 		gbc_btnConectar.gridy = 8;
 		contentPane.add(btnConectar, gbc_btnConectar);
 	}
-
-	protected void conectar() {
-		meuUsuario = new EntidadeUsuario();
-
-		String pass = String.copyValueOf(field_senha.getPassword());
-
-		meuUsuario.setEmail(field_email.getText());
-		meuUsuario.setSenha(pass);
-		meuUsuario.setStatus(Status.ONLINE);
-		String serv = field_servidor.getText();
-		int porta = Integer.valueOf(field_porta.getText());
-		try {
-			System.out.println(porta + serv);
-			registry = LocateRegistry.getRegistry(serv, porta);
-			servidor = (InterfaceServidor) registry.lookup(InterfaceServidor.NOME);
-			System.out.println("OPA");
-
-			servidor.conectarChat(meuUsuario, cliente);
-			 conexaoCliente.conectarChat(user,(InterfaceUsuario)
-			 conexaoCliente );
-			 if (conexaoServidor == true) {
-			 new Principal(user, conexaoCliente).setVisible(true);
-			 } else {
-			
-			 }
-			 dispose();
-			System.out.println("TESTE 01");
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null,
-					"                   - ERRO -\n                             "
-							+ "- Verifique se o IP e PORTA estão corretos.\n             "
-							+ "- Verifique se não há bloqueio de FIREWALL ou ANTIVIRUS.\n" + "\n\n");
-
-		}
-
-	}
-
 }

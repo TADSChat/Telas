@@ -42,22 +42,18 @@ import common.InterfaceUsuario;
 import common.Status;
 import java.awt.Color;
 
-public class Principal extends JFrame implements InterfaceUsuario {
+public class Principal extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private InterfaceServidor conexaoCliente;
-	private JTextField field_pesquisa_contato;
 	private JTable tableContatos;
-	private JTabbedPane tabbedConversas;
 	public EntidadeUsuario user;
 	
 	private static Principal global;
-	private JTextField textField;
-	private JTable tableContato;
+	private JTextField textFieldPesquisar;
 
 	/**
 	 * Create the frame.
@@ -72,10 +68,7 @@ public class Principal extends JFrame implements InterfaceUsuario {
 	/**
 	 * CONSTRUCTOR
 	 */
-	public Principal(EntidadeUsuario usuario, InterfaceServidor con) {
-		setBackground(Color.WHITE);
-		 this.user = usuario;
-		 this.conexaoCliente = con;
+	public Principal() {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -84,15 +77,10 @@ public class Principal extends JFrame implements InterfaceUsuario {
 			e.printStackTrace();
 		}
 		
-		 try {
-		 conexaoCliente.conectarChat(user, this);
-		 } catch (RemoteException e2) {
-		 e2.printStackTrace();
-		 }
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("TadsZap");
 		setBounds(100, 100, 511, 370);
+		setBackground(Color.WHITE);
 		setLocationRelativeTo(null);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -101,16 +89,6 @@ public class Principal extends JFrame implements InterfaceUsuario {
 
 		JMenu mnConexo = new JMenu("Conexão");
 		menuBar.add(mnConexo);
-
-		JMenuItem mntmTransissao = new JMenuItem("Transmissão");
-		mntmTransissao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				enviarTransmissao();
-
-			}
-		});
-		mnConexo.add(mntmTransissao);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Alterar Dados");
 		mnConexo.add(mntmNewMenuItem);
@@ -125,11 +103,7 @@ public class Principal extends JFrame implements InterfaceUsuario {
 		JMenuItem mntmSair = new JMenuItem("Sair");
 		mntmSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					conexaoCliente.desconectarChat(user);
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
+				System.exit(0);
 			}
 		});
 		mnConexo.add(mntmSair);
@@ -175,18 +149,7 @@ public class Principal extends JFrame implements InterfaceUsuario {
 		CBStatus.setForeground(Color.BLACK);
 		CBStatus.setBackground(Color.WHITE);
 		CBStatus.setModel(new DefaultComboBoxModel<Status>(Status.values()));
-		CBStatus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					user.setStatus(Status.valueOf(CBStatus.getSelectedItem().toString()));
-					conexaoCliente.atualizarStatus(user);
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-			}
-		});
 
-		// JLabel lblNomeLogado = new JLabel(user.getNome());
 		JLabel lblNomeLogado = new JLabel("jhoestevam");
 		lblNomeLogado.setFont(new Font("Yu Gothic UI", Font.PLAIN, 13));
 		GridBagConstraints gbc_lblNomeLogado = new GridBagConstraints();
@@ -211,24 +174,24 @@ public class Principal extends JFrame implements InterfaceUsuario {
 		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
-		tableContato = new JTable();
-		tableContato.setBackground(Color.WHITE);
+		tableContatos = new JTable();
+		tableContatos.setBackground(Color.WHITE);
 		GridBagConstraints gbc_tableContato = new GridBagConstraints();
 		gbc_tableContato.insets = new Insets(0, 0, 5, 5);
 		gbc_tableContato.fill = GridBagConstraints.BOTH;
 		gbc_tableContato.gridx = 1;
 		gbc_tableContato.gridy = 0;
-		panel_1.add(tableContato, gbc_tableContato);
+		panel_1.add(tableContatos, gbc_tableContato);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Yu Gothic UI Semilight", Font.PLAIN, 14));
+		textFieldPesquisar = new JTextField();
+		textFieldPesquisar.setFont(new Font("Yu Gothic UI Semilight", Font.PLAIN, 14));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
-		panel_1.add(textField, gbc_textField);
-		textField.setColumns(10);
+		panel_1.add(textFieldPesquisar, gbc_textField);
+		textFieldPesquisar.setColumns(10);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 13));
@@ -241,104 +204,7 @@ public class Principal extends JFrame implements InterfaceUsuario {
 		global = this;
 	}
 
-	public static void enviaArq(Arquivo arquivo) {
-		global.enviarArquivo(arquivo);
-	}
-
-	public static void enviaMsg(String msg) {
-		global.enviarMensagem(msg);
-	}
-
-	public void enviarTransmissao() {
-		new Transmissao(conexaoCliente, global.user).setVisible(true);
-		;
-	}
-	
 	public static JFrame getFrame(){
 		return global;
-	}
-	
-	public void enviarArquivo(Arquivo arquivo) {
-		String titleAt = tabbedConversas.getTitleAt(tabbedConversas.getSelectedIndex());
-
-		try {
-			if (titleAt.equals("Público")) {
-				JOptionPane.showMessageDialog(null, "Voçe não pode enviar arquivo para todos");
-			} else {
-				EntidadeUsuario destinatario = new EntidadeUsuario();
-				destinatario.setNome(titleAt);
-				conexaoCliente.enviarArquivo(user, destinatario, arquivo);
-			}
-
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void enviarMensagem(String mensagem) {
-
-		String titleAt = tabbedConversas.getTitleAt(tabbedConversas.getSelectedIndex());
-
-		try {
-
-			EntidadeUsuario destinatario = new EntidadeUsuario();
-			destinatario.setNome(titleAt);
-			conexaoCliente.enviarMensagem(user, destinatario, mensagem);
-			System.out.println(titleAt + " enviou:  " + mensagem);
-
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void receberContatosOnline(List<EntidadeUsuario> lista) throws RemoteException {
-		List<EntidadeUsuario> listaOnline = new ArrayList<>();
-
-		lista.forEach(e -> {
-			if (!e.getStatus().equals(Status.OFFLINE)) {
-				listaOnline.add(e);
-			}
-		});
-
-		TableModel tb = new MeuModelo(listaOnline);
-		tableContatos.setModel(tb);
-
-	}
-
-	public void receberListaParticipantes(ArrayList<EntidadeUsuario> lista) throws RemoteException {
-
-	}
-
-	public void receberMensagem(EntidadeUsuario remetente, String mensagem) throws RemoteException {
-		int totaltabs = tabbedConversas.getTabCount();
-		boolean ativo = false;
-		if (totaltabs != 0) {
-			for (int i = 0; i < totaltabs; i++) {
-				String titulo = tabbedConversas.getTitleAt(i);
-
-				System.out.println(remetente.getNome() + " - " + titulo);
-				if (titulo.equalsIgnoreCase(remetente.getNome())) {
-					ativo = true;
-					Conversa conversa = (Conversa) tabbedConversas.getComponentAt(i);
-					conversa.mostrar(remetente, mensagem);
-					System.out.println(conversa.toString());
-					tabbedConversas.setSelectedIndex(i);
-				}
-			}
-		}
-
-		if (!ativo) {
-
-			Conversa conversa = new Conversa(user);
-			tabbedConversas.add(remetente.getNome(), conversa);
-			conversa.mostrar(remetente, mensagem);
-
-		}
-	}
-
-	@Override
-	public void receberArquivo(EntidadeUsuario remetente, Arquivo arquivo) throws RemoteException {
-		new FileTransfer(remetente, arquivo);
 	}
 }
