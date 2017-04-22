@@ -162,7 +162,7 @@ public class Login extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				contectar();
+				conectar();
 				Principal tela = new Principal();
 				
 				tela.getFrame().setVisible(true);
