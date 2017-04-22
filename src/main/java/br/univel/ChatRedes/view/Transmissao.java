@@ -30,7 +30,6 @@ public class Transmissao extends JFrame {
 	 * @param conexaoCliente 
 	 */
 	public Transmissao(final InterfaceServidor conexaoCliente, final EntidadeUsuario user) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Insira sua Mensagem: ");
 		setBounds(100, 100, 450, 100);
 		contentPane = new JPanel();

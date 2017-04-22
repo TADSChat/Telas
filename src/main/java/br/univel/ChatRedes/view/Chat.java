@@ -123,6 +123,17 @@ public class Chat extends JFrame{
 		
 		Icon imagem_arquivo = new ImageIcon("send-arquivo.png");
 		JButton btnArquivo = new JButton(imagem_arquivo);
+		btnArquivo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Runtime.getRuntime().exec("explorer.exe " + "C:\\Usuario\\");
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		});
 		btnArquivo.setContentAreaFilled(false);
 		GridBagConstraints gbc_btnArquivo = new GridBagConstraints();
 		gbc_btnArquivo.insets = new Insets(0, 0, 5, 5);

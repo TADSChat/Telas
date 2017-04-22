@@ -85,7 +85,7 @@ public class AlterarDados extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				senhaField.setForeground(Color.GRAY);
+				senhaField.setForeground(Color.BLACK);
 				senhaField.setText("");
 			}
 		});
