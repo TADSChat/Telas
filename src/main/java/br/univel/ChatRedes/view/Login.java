@@ -164,8 +164,10 @@ public class Login extends JFrame {
 //				contectar();
 				Principal tela = new Principal();
 				Chat chat = new Chat();
-				chat.show();
-				tela.show();
+				
+				tela.getFrame().setVisible(true);
+				chat.getFrame().setVisible(true);
+				
 				dispose();
 			}
 		});

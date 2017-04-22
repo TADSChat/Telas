@@ -1,19 +1,21 @@
 package br.univel.ChatRedes.view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.JTextField;
-import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class AlterarDados extends JFrame{
 	private JTextField textFieldEmail;
@@ -23,7 +25,6 @@ public class AlterarDados extends JFrame{
 	private JPasswordField confirmacaoSenhaField;
 	
 	public AlterarDados() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Alterar dados");
 		setBounds(100, 100, 511, 370);
 		setLocationRelativeTo(null);
@@ -38,8 +39,17 @@ public class AlterarDados extends JFrame{
 		gbl_panel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		textFieldEmail = new JTextField();
-		textFieldEmail.setFont(new Font("Yu Gothic Medium", Font.PLAIN, 15));
+		textFieldEmail = new JTextField("Email");
+		textFieldEmail.setFont(new Font("YU Gothic Medium", Font.PLAIN, 15));
+		textFieldEmail.setForeground(Color.GRAY);
+		textFieldEmail.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textFieldEmail.setForeground(Color.BLACK);
+				textFieldEmail.setText("");
+			}
+		});
 		GridBagConstraints gbc_textFieldEmail = new GridBagConstraints();
 		gbc_textFieldEmail.gridwidth = 2;
 		gbc_textFieldEmail.insets = new Insets(0, 0, 5, 5);
@@ -49,8 +59,17 @@ public class AlterarDados extends JFrame{
 		panel.add(textFieldEmail, gbc_textFieldEmail);
 		textFieldEmail.setColumns(10);
 		
-		textFieldUsername = new JTextField();
-		textFieldUsername.setFont(new Font("Yu Gothic Medium", Font.PLAIN, 15));
+		textFieldUsername = new JTextField("Username");
+		textFieldUsername.setForeground(Color.GRAY);
+		textFieldUsername.setFont(new Font("YU Gothic Medium", Font.PLAIN, 15));
+		textFieldUsername.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textFieldUsername.setForeground(Color.BLACK);
+				textFieldUsername.setText("");
+			}
+		});
 		GridBagConstraints gbc_textFieldUsername = new GridBagConstraints();
 		gbc_textFieldUsername.insets = new Insets(0, 0, 5, 5);
 		gbc_textFieldUsername.fill = GridBagConstraints.HORIZONTAL;
@@ -59,8 +78,17 @@ public class AlterarDados extends JFrame{
 		panel.add(textFieldUsername, gbc_textFieldUsername);
 		textFieldUsername.setColumns(10);
 		
-		senhaField = new JPasswordField();
-		senhaField.setFont(new Font("Yu Gothic Medium", Font.PLAIN, 15));
+		senhaField = new JPasswordField("Senha");
+		senhaField.setForeground(Color.GRAY);
+		senhaField.setFont(new Font("Arial Narrow", Font.PLAIN, 20));
+		senhaField.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				senhaField.setForeground(Color.GRAY);
+				senhaField.setText("");
+			}
+		});
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
 		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
@@ -68,8 +96,17 @@ public class AlterarDados extends JFrame{
 		gbc_passwordField.gridy = 5;
 		panel.add(senhaField, gbc_passwordField);
 		
-		confirmacaoSenhaField = new JPasswordField();
-		confirmacaoSenhaField.setFont(new Font("Yu Gothic Medium", Font.PLAIN, 15));
+		confirmacaoSenhaField = new JPasswordField("Senha");
+		confirmacaoSenhaField.setForeground(Color.GRAY);
+		confirmacaoSenhaField.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				confirmacaoSenhaField.setForeground(Color.BLACK);
+				confirmacaoSenhaField.setText("");
+			}
+		});
+		confirmacaoSenhaField.setFont(new Font("Arial Narrow", Font.PLAIN, 20));
 		GridBagConstraints gbc_passwordField_1 = new GridBagConstraints();
 		gbc_passwordField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -89,6 +126,7 @@ public class AlterarDados extends JFrame{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 13));
 		btnCancelar.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();

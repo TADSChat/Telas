@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -35,7 +37,6 @@ public class Chat extends JFrame{
 			e.printStackTrace();
 		}
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Chat");
 		setBounds(100, 100, 511, 370);
 		setLocationRelativeTo(null);
@@ -76,7 +77,7 @@ public class Chat extends JFrame{
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		GridBagConstraints gbc_textArea = new GridBagConstraints(); 
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 0;
 		gbc_textArea.gridy = 0;
@@ -102,14 +103,22 @@ public class Chat extends JFrame{
 		textFieldMensagem.setColumns(10);
 		
 		Icon imagem_mensagem = new ImageIcon("send-button.png");
-		JButton btnNewButton = new JButton(imagem_mensagem);
-		btnNewButton.setContentAreaFilled(false);
+		JButton btnEnviar = new JButton(imagem_mensagem);
+		btnEnviar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea.append(textFieldMensagem.getText() + " \n");
+				textFieldMensagem.setText("");
+			}
+		});
+		btnEnviar.setContentAreaFilled(false);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 2;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		panel.add(btnEnviar, gbc_btnNewButton);
 		
 		
 		Icon imagem_arquivo = new ImageIcon("send-arquivo.png");

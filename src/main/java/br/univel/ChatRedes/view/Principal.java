@@ -477,7 +477,8 @@ public class Principal extends JFrame implements InterfaceUsuario {
 					usuario.setStatus(Status.valueOf(tableContatos.getValueAt(linha, 1).toString()));
 
 //					tabbedConversas.add(usuario.getNome(), new Conversa(usuario));
-					Chat.getFrame().setVisible(true);
+					Chat chat = new Chat();
+					chat.getFrame().setVisible(true);
 				}
 			}
 		});
@@ -530,7 +531,11 @@ public class Principal extends JFrame implements InterfaceUsuario {
 		new Transmissao(conexaoCliente, global.user).setVisible(true);
 		;
 	}
-
+	
+	public static JFrame getFrame(){
+		return global;
+	}
+	
 	public void enviarArquivo(Arquivo arquivo) {
 		String titleAt = tabbedConversas.getTitleAt(tabbedConversas.getSelectedIndex());
 
